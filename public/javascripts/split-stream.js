@@ -2,6 +2,7 @@
 (function(window, $, Bacon, undefined) {
     var eventSource = $('.event-source');
     var ledger = $('.event-ledger');
+    // var controls = $('input[name="listening"]');
 
     var valve = Bacon.$.radioGroupValue($('input[name="listening"]'))
         .toEventStream()
@@ -12,10 +13,21 @@
     var stream = eventSource.asEventStream('mousemove')
         .holdWhen(valve.not())
         .map(parseEvent)
-        .map(addTimestamp)
-        .scan('', appendMessage);
+        .map(addTimestamp);
 
-    stream.onValue(updateLedger(ledger));
+    // send event to logs
+    stream.onValue(function(msg) {
+        var ajaxStream = Bacon.$.ajaxPost('/log', {'message': msg});
+        ajaxStream.onValue(function (resp) {
+            // no op
+        });
+        ajaxStream.onError(function(err) {
+            console.log(err);
+        });
+    });
+
+    // update ledger
+    stream.scan('', appendMessage).onValue(updateLedger(ledger));
 
     function pad(pad, str, padLeft) {
         if (typeof str === 'undefined')

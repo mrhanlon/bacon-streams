@@ -1,0 +1,37 @@
+<h1>{{title}}</h1>
+<div class="row">
+    <div class="col-md-8 col-sm-6">
+        <h3>Event Source</h3>
+        <hr>
+        <div class="row">
+            {{#each sources }}
+                <div class="col-md-6 col-xs-12">
+                    <div class="event-source" data-source-id="{{ id }}" data-source-name="{{ name }}">
+                        <p class="pad-instructions">
+                            Drag here to trigger events on <b>{{ name }}</b>.
+                        </p>
+                    </div>
+                    <div class="text-right">
+                        <label>{{ name }} Controls:</label>
+                        <div class="btn-group source-controls" data-toggle="buttons">
+                            <label class="btn btn-default active">
+                                <input type="radio" name="listening-{{ id }}" value="yes" autocomplete="off" checked>
+                                <span class="sr-only">Listen</span>  <i class="glyphicon glyphicon-play"></i>
+                            </label>
+                            <label class="btn btn-default">
+                                <input type="radio" name="listening-{{ id }}" value="no" autocomplete="off">
+                                <span class="sr-only">Pause</span>  <i class="glyphicon glyphicon-pause"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <h3>Event Details</h3>
+        <hr>
+        <pre class="event-ledger">Event stream details will appear here.
+        </pre>
+    </div>
+</div>

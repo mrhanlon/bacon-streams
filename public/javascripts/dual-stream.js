@@ -1,21 +1,28 @@
 /*globals jQuery, Bacon*/
 (function(window, $, Bacon, undefined) {
-    var eventSource = $('.event-source');
     var ledger = $('.event-ledger');
+    var sources = $('.event-source');
+    var controls = $('.source-controls');
+    var streams = [];
 
-    var valve = Bacon.$.radioGroupValue($('input[name="listening"]'))
-        .toEventStream()
-        .map(function(val) {
-            return val === 'yes';
-        });
+    $.each(sources, function(i, source) {
+        var sourceId = source.dataset.sourceId;
+        var controls = $('input[name="listening-' + sourceId + '"]');
+        var valve = Bacon.$.radioGroupValue(controls)
+            .toEventStream()
+            .map(function(val) {
+                return val === 'yes';
+            });
+        var stream = $(source).asEventStream('mousemove')
+            .holdWhen(valve.not())
+            .map(parseEvent)
+            .map(addTimestamp)
+        streams.push(stream);
+    });
 
-    var stream = eventSource.asEventStream('mousemove')
-        .holdWhen(valve.not())
-        .map(parseEvent)
-        .map(addTimestamp)
-        .scan('', appendMessage);
-
-    stream.onValue(updateLedger(ledger));
+    Bacon.mergeAll(streams)
+        .scan('', appendMessage)
+        .onValue(updateLedger(ledger));
 
     function pad(pad, str, padLeft) {
         if (typeof str === 'undefined')
@@ -28,7 +35,7 @@
     }
 
     function parseEvent(e) {
-        var source = e.currentTarget.dataset['source'];
+        var source = e.currentTarget.dataset['sourceName'];
         return source + ' (x: ' + pad('   ', e.offsetX, true) + ', y: ' + pad('   ', e.offsetY, true) + ')';
     }
 
