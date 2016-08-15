@@ -1,0 +1,25 @@
+{
+  "name": "bacon-streams",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Matthew R Hanlon <mrhanlon@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "bacon.jquery": "^0.4.12",
+    "bacon": "^0.7.85",
+    "bacon.model": "^0.1.12"
+  }
+}

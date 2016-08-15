@@ -1,0 +1,22 @@
+@import "compass/css3";
+
+.event-pad {
+  border: 1px solid #ccc;
+  background-color: #eee;
+  height: 400px;
+}
+
+.pad-instructions {
+  line-height: 400px;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.event-ledger {
+  display: block;
+  height: 400px;
+  overflow: auto;
+}
