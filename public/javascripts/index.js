@@ -15,17 +15,28 @@
         .map(parseEvent)
         .map(addTimestamp)
         .map(makeMessage)
-        .scan('', concat)
-        .onValue(updateLedger(ledger));
+        .scan('', concat);
+
+    stream.onValue(updateLedger(ledger));
+
+    function pad(pad, str, padLeft) {
+        if (typeof str === 'undefined')
+            return pad;
+        if (padLeft) {
+            return (pad + str).slice(-pad.length);
+        } else {
+            return (str + pad).substring(0, pad.length);
+        }
+    }
 
     function parseEvent(e) {
-        console.log(e);
-        return e.type + ' (x: ' + e.offsetX + ', y: ' + e.offsetY + ')';
+        var source = e.currentTarget.dataset['source'];
+        return source + ' (x: ' + pad('   ', e.offsetX, true) + ', y: ' + pad('   ', e.offsetY, true) + ')';
     }
 
     function addTimestamp(msg) {
         var d = new Date();
-        return '[ ' + (d.getTime() / 1000).toFixed(3) + ' ] ' + msg;
+        return msg + ' [ ' + (d.getTime() / 1000).toFixed(3) + ' ]';
     }
 
     function makeMessage(msg) {
