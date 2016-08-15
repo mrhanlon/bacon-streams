@@ -8,6 +8,7 @@
   "dependencies": {
     "baconjs": "^0.7.85",
     "body-parser": "~1.15.1",
+    "bower": "^1.7.9",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.13.4",
@@ -15,5 +16,8 @@
     "morgan": "~1.7.0",
     "node-compass": "0.2.3",
     "serve-favicon": "~2.3.0"
+  },
+  "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install"
   }
 }
