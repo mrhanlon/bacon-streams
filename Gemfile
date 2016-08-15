@@ -1,3 +1,1 @@
-source "https://rubygems.org"
-gem "compass"
-
+gem "compass", source "https://rubygems.org"
